@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="53e38eea-3415-4dd5-b6cf-dad54a8806a4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="fc297d84-cc48-4dd9-bc4c-4e79b8569005" />
+  <component name="ProjectId" id="25ihyYG8IoVTyGDczwHIlBxKFy6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/data" />
+    <property name="settings.editor.selected.configurable" value="reference.idesettings.debugger.python" />
+  </component>
+  <component name="PyDebuggerOptionsProvider">
+    <option name="mySaveCallSignatures" value="true" />
+    <option name="mySupportGeventDebugging" value="true" />
+    <option name="myDropIntoDebuggerOnFailedTests" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.pt2onnx">
+    <configuration name="FeatureEncodeAndDecode" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TransAISFormer" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FeatureEncodeAndDecode.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="config" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TransAISFormer" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/config.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pt2onnx" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TransAISFormer" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pt2onnx.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TransAISFormer" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.FeatureEncodeAndDecode" />
+      <item itemvalue="Python.config" />
+      <item itemvalue="Python.pt2onnx" />
+      <item itemvalue="Python.train" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.pt2onnx" />
+        <item itemvalue="Python.train" />
+        <item itemvalue="Python.config" />
+        <item itemvalue="Python.FeatureEncodeAndDecode" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="53e38eea-3415-4dd5-b6cf-dad54a8806a4" name="Default Changelist" comment="" />
+      <created>1646016068710</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1646016068710</updated>
+      <workItem from="1646016069739" duration="11862000" />
+      <workItem from="1646104587580" duration="8380000" />
+      <workItem from="1646114201084" duration="16366000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="730" y="351" width="1196" height="771" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1646114003886">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state x="730" y="351" width="1196" height="771" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.34.2560.1406@0.34.2560.1406" timestamp="1646114003886" />
+    <state width="2498" height="571" key="GridCell.Tab.0.bottom" timestamp="1646131425485">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state width="2498" height="571" key="GridCell.Tab.0.bottom/0.34.2560.1406@0.34.2560.1406" timestamp="1646131425485" />
+    <state width="2498" height="571" key="GridCell.Tab.0.center" timestamp="1646131425485">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state width="2498" height="571" key="GridCell.Tab.0.center/0.34.2560.1406@0.34.2560.1406" timestamp="1646131425485" />
+    <state width="2498" height="571" key="GridCell.Tab.0.left" timestamp="1646131425484">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state width="2498" height="571" key="GridCell.Tab.0.left/0.34.2560.1406@0.34.2560.1406" timestamp="1646131425484" />
+    <state width="2498" height="571" key="GridCell.Tab.0.right" timestamp="1646131425485">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state width="2498" height="571" key="GridCell.Tab.0.right/0.34.2560.1406@0.34.2560.1406" timestamp="1646131425485" />
+    <state width="2498" height="453" key="GridCell.Tab.1.bottom" timestamp="1646123257248">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state width="2498" height="453" key="GridCell.Tab.1.bottom/0.34.2560.1406@0.34.2560.1406" timestamp="1646123257248" />
+    <state width="2498" height="453" key="GridCell.Tab.1.center" timestamp="1646123257248">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state width="2498" height="453" key="GridCell.Tab.1.center/0.34.2560.1406@0.34.2560.1406" timestamp="1646123257248" />
+    <state width="2498" height="453" key="GridCell.Tab.1.left" timestamp="1646123257248">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state width="2498" height="453" key="GridCell.Tab.1.left/0.34.2560.1406@0.34.2560.1406" timestamp="1646123257248" />
+    <state width="2498" height="453" key="GridCell.Tab.1.right" timestamp="1646123257248">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state width="2498" height="453" key="GridCell.Tab.1.right/0.34.2560.1406@0.34.2560.1406" timestamp="1646123257248" />
+    <state x="571" y="197" width="1417" height="1081" key="SettingsEditor" timestamp="1646114537289">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state x="571" y="197" width="1417" height="1081" key="SettingsEditor/0.34.2560.1406@0.34.2560.1406" timestamp="1646114537289" />
+    <state width="1280" height="703" key="XDebugger.FullValuePopup" timestamp="1646121067947">
+      <screen x="0" y="34" width="2560" height="1406" />
+    </state>
+    <state width="1280" height="703" key="XDebugger.FullValuePopup/0.34.2560.1406@0.34.2560.1406" timestamp="1646121067947" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="tra_pred[0,:, 0].cpu()" language="Python" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/TransAISFormer$train.coverage" NAME="train Coverage Results" MODIFIED="1646132908623" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/TransAISFormer$Models.coverage" NAME="Models Coverage Results" MODIFIED="1646111835580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/transformer" />
+    <SUITE FILE_PATH="coverage/TransAISFormer$pt2onnx.coverage" NAME="pt2onnx Coverage Results" MODIFIED="1646131425474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/TransAISFormer$process.coverage" NAME="process Coverage Results" MODIFIED="1646113995454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/TransAISFormer$config.coverage" NAME="config Coverage Results" MODIFIED="1646125505829" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AISTransformer$train.coverage" NAME="train Coverage Results" MODIFIED="1646105373041" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AISTransformer$pt2onnx.coverage" NAME="pt2onnx Coverage Results" MODIFIED="1646105185837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/TransAISFormer$dataread.coverage" NAME="dataread Coverage Results" MODIFIED="1646104659713" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
