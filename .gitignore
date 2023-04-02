@@ -1,0 +1,9 @@
+.idea/TransAISFormer.iml
+__pycache__/
+checkpoint/
+runs/
+save/
+transformer/__pycache__/
+.gitignore
+
+

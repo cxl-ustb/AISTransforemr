@@ -9,7 +9,13 @@ class ScheduledOptim():
         self.d_model = d_model
         self.n_warmup_steps = n_warmup_steps
         self.n_steps = 0
+        self.state_dict = self._optimizer.state_dict()
 
+    def get_state_dict(self):
+        return self.state_dict
+
+    def load_state_dict(self, state_dict):
+        self._optimizer.load_state_dict(state_dict)
 
     def step_and_update_lr(self):
         "Step with the inner optimizer"
@@ -32,7 +38,9 @@ class ScheduledOptim():
         ''' Learning rate scheduling per step '''
 
         self.n_steps += 1
-        lr = self.lr_mul * self._get_lr_scale()
+        # lr = self.lr_mul * self._get_lr_scale()
+        lr = max(self.lr_mul - self.lr_mul * self.n_steps * 1.3e-4, 10e-5)
+        self.state_dict = self._optimizer.state_dict()
 
         for param_group in self._optimizer.param_groups:
             param_group['lr'] = lr
