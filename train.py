@@ -1,5 +1,5 @@
 import argparse
-from dataread import data_train,data_test
+from dataread import data_train_raw, data_test_raw, ShipTrajData
 import torch
 import numpy as np
 from transformer.Models import Transformer
@@ -9,6 +9,12 @@ from transformer.Optim import ScheduledOptim
 from torch.nn import functional as F
 import random
 from matplotlib import pyplot as plt
+from tensorboardX import SummaryWriter
+import time
+from torch.utils.data import Dataset, DataLoader
+import tqdm
+log_writer = SummaryWriter()
+
 os.environ['CUDA_LAUNCH_BLOCKING'] ='1'
 
 def DrawTrajectory(tra_pred,tra_true):
@@ -33,80 +39,120 @@ def cal_performance(tra_pred,tra_true):
     return F.mse_loss(tra_pred,tra_true)
 
 
-def train(model,data, optimizer, device, opt):
-    model.train()
-    for epoch_i in range(opt.epoch):
-        total_loss = 0
-        desc = ' - (Training)  '
-        optimizer.zero_grad()
-        tra_pred = model(input_data=data)
-        # backward and update parameters
-        loss = cal_performance(tra_pred, data[:, 1:, :])
-        loss.backward()
-        optimizer.step_and_update_lr()
-        total_loss += loss.item()
+def train(model, dataloader, optimizer, device, opt):
+    for id, epoch_i in enumerate(tqdm.tqdm(range(opt.epoch))):
+        model.train()
+        total_loss = 0 # loss in each epoch
+        for idx, data in enumerate(dataloader):
+            optimizer.zero_grad()
+            tra_pred = model(input_data=data)
+            # backward and update parameters
+            loss = cal_performance(tra_pred, data[:, 1:, :])
+            loss.backward()
+            optimizer.step_and_update_lr()
+            total_loss += loss.item()
+        log_writer.add_scalar("loss", total_loss, epoch_i)
         if epoch_i % 100 == 0:
-            DrawTrajectory(tra_pred, data[:, 1:, :])
+            print("epoch = %d, total_loss = %lf" % (epoch_i, total_loss))
+        #     DrawTrajectory(tra_pred, data[:, 1:, :])
 
-    torch.save(model,'model.pt')
-def test(model,data,device):
-    desc = ' - (Training)  '
-    print(desc)
-    tra_pred = model(input_data=data)
-    DrawTrajectory(tra_pred, data[:, 1:, :])
+    #torch.save(model,'model.pt')
+    checkpoint = {
+        "net":model.state_dict(),
+        "optimizer":optimizer.get_state_dict(),
+        "epoch":epoch_i}
 
+    if not os.path.isdir("./checkpoint"):
+        os.mkdir("./checkpoint")
+    torch.save(checkpoint, "./checkpoint/ckpt.pth")
+
+    print("Train Finish")
+
+def test(model, dataloader, device):
+    total_loss = 0
+    for idx, data in enumerate(dataloader):
+        tra_pred = model(input_data=data)
+        loss = cal_performance(tra_pred, data[:, 1:, :])
+    total_loss += loss.item()
+    # DrawTrajectory(tra_pred, data[:, 1:, :])
+    print("Test Finish, total_loss = {}".format(total_loss))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-epoch', type=int, default=1000)
-    parser.add_argument('-b', '--batch_size', type=int, default=2048)
-
+    parser.add_argument('-epoch', type=int, default=8000)
+    parser.add_argument('-b', '--batch_size', type=int, default=140)
     parser.add_argument('-d_model', type=int, default=512)
     parser.add_argument('-d_inner_hid', type=int, default=2048)
     parser.add_argument('-d_k', type=int, default=64)
     parser.add_argument('-d_v', type=int, default=64)
     parser.add_argument('-warmup', '--n_warmup_steps', type=int, default=4000)
     parser.add_argument('-lr_mul', type=float, default=2.0)
-    parser.add_argument('-n_head', type=int, default=8)
-    parser.add_argument('-n_layers', type=int, default=6)
+    parser.add_argument('-lr', type=float, default=0.001)
+    parser.add_argument('-n_head', type=int, default=2)
+    parser.add_argument('-n_layers', type=int, default=1)
     parser.add_argument('-dropout', type=float, default=0.1)
+    parser.add_argument('-do_train', type=bool, default=True)
+    parser.add_argument('-do_retrain', type=bool, default=False)
+    parser.add_argument('-do_eval', type=bool, default=False)
 
     opt = parser.parse_args()
     opt.d_word_vec = opt.d_model
-    device="cuda:0"
-    data=torch.from_numpy(np.array(data_train)).to(device).to(torch.float32)
-    transformer = Transformer(
-        500,
-        500,
-        d_k=opt.d_k,
-        d_v=opt.d_v,
-        d_model=opt.d_model,
-        d_word_vec=opt.d_word_vec,
-        d_inner=opt.d_inner_hid,
-        n_layers=opt.n_layers,
-        n_head=opt.n_head,
-        dropout=opt.dropout,
-    ).to(device)
+    # device="cuda:0"
+    device="cpu"
 
-    optimizer = ScheduledOptim(
-        optim.Adam(transformer.parameters(), betas=(0.9, 0.98), eps=1e-09),
-        opt.lr_mul, opt.d_model, opt.n_warmup_steps)
 
-    train(
-        model=transformer,
-        data=data,
-        optimizer=optimizer,
-        device=device,
-        opt=opt
-    )
-    data=torch.from_numpy(np.array(data_test)).to(device).to(torch.float32)
-    model=torch.load('model.pt')
-    test(
-        model=model,
-        data=data,
-        device=device
-    )
+    if opt.do_train == True:
+        transformer = Transformer(
+            500,
+            500,
+            d_k=opt.d_k,
+            d_v=opt.d_v,
+            d_model=opt.d_model,
+            d_word_vec=opt.d_word_vec,
+            d_inner=opt.d_inner_hid,
+            n_layers=opt.n_layers,
+            n_head=opt.n_head,
+            dropout=opt.dropout,
+        ).to(device)
+
+        # data=torch.from_numpy(np.array(data_train)).to(device).to(torch.float32)
+        data_train = ShipTrajData(data_train_raw)
+        train_loader = DataLoader(dataset=data_train, batch_size=opt.batch_size, shuffle=False)
+        optimizer = ScheduledOptim(
+            optim.Adam(transformer.parameters(), betas=(0.9, 0.98), eps=1e-09),
+            opt.lr, opt.d_model, opt.n_warmup_steps)
+
+        if opt.do_retrain == True:
+            checkpoint = torch.load("./checkpoint/ckpt.pth")
+            transformer.load_state_dict(checkpoint['net'])
+            optimizer.load_state_dict(checkpoint['optimizer'])
+
+        start_time = time.time()
+        train(
+            model=transformer,
+            dataloader=train_loader,
+            optimizer=optimizer,
+            device=device,
+            opt=opt
+        )
+        end_time = time.time()
+        print("train time = {} seconds".format(end_time - start_time))
+
+
+
+    if opt.do_eval == True:
+        # data=torch.from_numpy(np.array(data_train)).to(device).to(torch.float32)
+        data_test = ShipTrajData(data_test_raw)
+        test_loader = DataLoader(dataset=data_test, batch_size=160, shuffle=False)
+        model=torch.load('model.pt')
+        #model=torch.load('save/model_3_new_lr_8000epochs.pt')
+
+        test(
+            model=model,
+            dataloader=test_loader,
+            device=device
+        )
 
 
 
