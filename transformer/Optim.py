@@ -3,13 +3,17 @@ __author__ = "Cheng XinLong"
 class ScheduledOptim():
     '''A simple wrapper class for learning rate scheduling'''
 
-    def __init__(self, optimizer, lr_mul, d_model, n_warmup_steps):
+    def __init__(self, optimizer, lr_mul, d_model, n_warmup_steps, use_mlp):
         self._optimizer = optimizer
-        self.lr_mul = lr_mul
+        self.lr_mul = 0.01 if use_mlp else lr_mul
         self.d_model = d_model
         self.n_warmup_steps = n_warmup_steps
         self.n_steps = 0
         self.state_dict = self._optimizer.state_dict()
+        self.use_mlp = use_mlp
+
+    def get_lr(self):
+        return self._optimizer.param_groups[0]['lr']
 
     def get_state_dict(self):
         return self.state_dict
@@ -40,6 +44,8 @@ class ScheduledOptim():
         self.n_steps += 1
         # lr = self.lr_mul * self._get_lr_scale()
         lr = max(self.lr_mul - self.lr_mul * self.n_steps * 1.3e-4, 10e-5)
+        if self.use_mlp:
+            lr = max(self.lr_mul - self.lr_mul * self.n_steps * 0.5e-4, 8e-4)
         self.state_dict = self._optimizer.state_dict()
 
         for param_group in self._optimizer.param_groups:

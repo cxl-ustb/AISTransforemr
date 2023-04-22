@@ -1,16 +1,14 @@
 ''' Define the Transformer model '''
-__author__ = "Cheng XinLong"
+
 import torch
 import torch.nn as nn
 import numpy as np
 from FeatureEncodeAndDecode import FPN,FDN
 from transformer.Layers import EncoderLayer, DecoderLayer
+from torch.nn import functional as F
 
 
-__author__ = "Cheng XinLong"
-
-
-
+__author__ = "Cheng XinLong, Oxalate-c"
 
 def get_subsequent_mask(seq):
     ''' For masking out the subsequent info. '''
@@ -174,3 +172,30 @@ class Transformer(nn.Module):
         trajectory_logit =self.fdn(trajectory_logit)
 
         return trajectory_logit
+
+class MLP(nn.Module):
+    def __init__(self, input_dim, output_dim, hidden1_dim, hidden2_dim, use_extra_input=False): # layer size: list of size, input->hidddn->output
+        super().__init__()
+        self.layer1 = nn.Linear(input_dim, hidden1_dim)
+        self.layer1_ = nn.Linear(input_dim, hidden1_dim) # use for input2
+        self.layer2 = nn.Linear(hidden1_dim, hidden2_dim)
+        self.layer3 = nn.Linear(hidden2_dim, hidden1_dim)
+        self.layer4 = nn.Linear(hidden1_dim, output_dim)
+        self.use_extra_input = use_extra_input
+
+    def forward(self, input_data):
+        input1 = input_data[:,:-1,:]
+        output = self.layer1(input1)
+        if self.use_extra_input:
+            input1_ = input_data[:,1:,:]
+            output += self.layer1_(input1_)
+        output = F.relu(output)
+        output = F.relu(self.layer2(output))
+        output = F.relu(self.layer3(output))
+        output = self.layer4(output)
+        return output
+
+
+
+
+
