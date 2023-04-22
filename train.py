@@ -2,7 +2,7 @@ import argparse
 from dataread import data_train_raw, data_test_raw, ShipTrajData
 import torch
 import numpy as np
-from transformer.Models import Transformer
+from transformer.Models import Transformer, MLP
 import os
 from torch import optim
 from transformer.Optim import ScheduledOptim
@@ -52,11 +52,13 @@ def train(model, dataloader, optimizer, device, opt):
             optimizer.step_and_update_lr()
             total_loss += loss.item()
         log_writer.add_scalar("loss", total_loss, epoch_i)
+        log_writer.add_scalar("lr", optimizer.get_lr(), epoch_i)
         if epoch_i % 100 == 0:
             print("epoch = %d, total_loss = %lf" % (epoch_i, total_loss))
         #     DrawTrajectory(tra_pred, data[:, 1:, :])
 
-    #torch.save(model,'model.pt')
+    torch.save(model,'model.pt')
+    # another method to save model
     checkpoint = {
         "net":model.state_dict(),
         "optimizer":optimizer.get_state_dict(),
@@ -80,7 +82,7 @@ def test(model, dataloader, device):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-epoch', type=int, default=8000)
+    parser.add_argument('-epoch', type=int, default=30000)
     parser.add_argument('-b', '--batch_size', type=int, default=140)
     parser.add_argument('-d_model', type=int, default=512)
     parser.add_argument('-d_inner_hid', type=int, default=2048)
@@ -95,42 +97,49 @@ if __name__ == '__main__':
     parser.add_argument('-do_train', type=bool, default=True)
     parser.add_argument('-do_retrain', type=bool, default=False)
     parser.add_argument('-do_eval', type=bool, default=False)
+    parser.add_argument('-use_mlp', type=bool, default=False)
 
     opt = parser.parse_args()
     opt.d_word_vec = opt.d_model
     # device="cuda:0"
     device="cpu"
 
+    transformer = Transformer(
+        500,
+        500,
+        d_k=opt.d_k,
+        d_v=opt.d_v,
+        d_model=opt.d_model,
+        d_word_vec=opt.d_word_vec,
+        d_inner=opt.d_inner_hid,
+        n_layers=opt.n_layers,
+        n_head=opt.n_head,
+        dropout=opt.dropout,
+    ).to(device)
+
+    mlp = MLP(4,4,25,50,use_extra_input=True)
+
+    model_train = transformer
+    if opt.use_mlp:
+        model_train = mlp
 
     if opt.do_train == True:
-        transformer = Transformer(
-            500,
-            500,
-            d_k=opt.d_k,
-            d_v=opt.d_v,
-            d_model=opt.d_model,
-            d_word_vec=opt.d_word_vec,
-            d_inner=opt.d_inner_hid,
-            n_layers=opt.n_layers,
-            n_head=opt.n_head,
-            dropout=opt.dropout,
-        ).to(device)
-
         # data=torch.from_numpy(np.array(data_train)).to(device).to(torch.float32)
         data_train = ShipTrajData(data_train_raw)
         train_loader = DataLoader(dataset=data_train, batch_size=opt.batch_size, shuffle=False)
+        parameters = mlp.parameters() if opt.use_mlp else transformer.parameters()
         optimizer = ScheduledOptim(
-            optim.Adam(transformer.parameters(), betas=(0.9, 0.98), eps=1e-09),
-            opt.lr, opt.d_model, opt.n_warmup_steps)
+            optim.Adam(parameters, betas=(0.9, 0.98), eps=1e-09),
+            opt.lr, opt.d_model, opt.n_warmup_steps, opt.use_mlp)
 
-        if opt.do_retrain == True:
+        if opt.do_retrain == True: # only used for transformer
             checkpoint = torch.load("./checkpoint/ckpt.pth")
             transformer.load_state_dict(checkpoint['net'])
             optimizer.load_state_dict(checkpoint['optimizer'])
 
         start_time = time.time()
         train(
-            model=transformer,
+            model=model_train,
             dataloader=train_loader,
             optimizer=optimizer,
             device=device,
@@ -143,10 +152,11 @@ if __name__ == '__main__':
 
     if opt.do_eval == True:
         # data=torch.from_numpy(np.array(data_train)).to(device).to(torch.float32)
-        data_test = ShipTrajData(data_test_raw)
-        test_loader = DataLoader(dataset=data_test, batch_size=160, shuffle=False)
+        data_test = ShipTrajData(data_train_raw)
+        test_loader = DataLoader(dataset=data_test, batch_size=140, shuffle=False)
         model=torch.load('model.pt')
-        #model=torch.load('save/model_3_new_lr_8000epochs.pt')
+        #ckpt=torch.load('checkpoint/ckpt1_shuffle_8000epochs.pth')
+        #transformer.load_state_dict(ckpt['net'])
 
         test(
             model=model,
