@@ -45,9 +45,9 @@ def train(model, dataloader, optimizer, device, opt):
         total_loss = 0 # loss in each epoch
         for idx, data in enumerate(dataloader):
             optimizer.zero_grad()
-            tra_pred = model(input_data=data)
+            tra_pred = model(input_data=data.to(device).to(torch.float32), device=device)
             # backward and update parameters
-            loss = cal_performance(tra_pred, data[:, 1:, :])
+            loss = cal_performance(tra_pred, data[:, 1:, :].to(device).to(torch.float32))
             loss.backward()
             optimizer.step_and_update_lr()
             total_loss += loss.item()
@@ -73,8 +73,8 @@ def train(model, dataloader, optimizer, device, opt):
 def test(model, dataloader, device):
     total_loss = 0
     for idx, data in enumerate(dataloader):
-        tra_pred = model(input_data=data)
-        loss = cal_performance(tra_pred, data[:, 1:, :])
+        tra_pred = model(input_data=data.to(device).to(torch.float32),device=device)
+        loss = cal_performance(tra_pred, data[:, 1:, :].to(device).to(torch.float32))
     total_loss += loss.item()
     # DrawTrajectory(tra_pred, data[:, 1:, :])
     print("Test Finish, total_loss = {}".format(total_loss))
@@ -101,8 +101,8 @@ if __name__ == '__main__':
 
     opt = parser.parse_args()
     opt.d_word_vec = opt.d_model
-    # device="cuda:0"
-    device="cpu"
+    device="cuda:0"
+    #device="cpu"
 
     transformer = Transformer(
         500,
@@ -117,7 +117,7 @@ if __name__ == '__main__':
         dropout=opt.dropout,
     ).to(device)
 
-    mlp = MLP(4,4,25,50,use_extra_input=True)
+    mlp = MLP(4,4,25,50,use_extra_input=True).to(device)
 
     model_train = transformer
     if opt.use_mlp:
@@ -154,7 +154,7 @@ if __name__ == '__main__':
         # data=torch.from_numpy(np.array(data_train)).to(device).to(torch.float32)
         data_test = ShipTrajData(data_train_raw)
         test_loader = DataLoader(dataset=data_test, batch_size=140, shuffle=False)
-        model=torch.load('model.pt')
+        model=torch.load('model.pt').to(device)
         #ckpt=torch.load('checkpoint/ckpt1_shuffle_8000epochs.pth')
         #transformer.load_state_dict(ckpt['net'])
 

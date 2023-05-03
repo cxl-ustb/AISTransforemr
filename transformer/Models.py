@@ -161,10 +161,10 @@ class Transformer(nn.Module):
             if p.dim() > 1:
                 nn.init.xavier_uniform_(p)
 
-    def forward(self,input_data):
+    def forward(self,input_data,device):
         input_data=self.fpn(input_data).squeeze(-1)
-        src_seq=input_data[:,:-1].to(torch.float32)
-        trg_seq=input_data[:,1:].to(torch.float32)
+        src_seq=input_data[:,:-1].to(device).to(torch.float32)
+        trg_seq=input_data[:,1:].to(device).to(torch.float32)
         trg_mask = get_subsequent_mask(trg_seq)
         enc_output = self.encoder(src_seq)
         dec_output = self.decoder(trg_seq, trg_mask, enc_output)
@@ -183,11 +183,11 @@ class MLP(nn.Module):
         self.layer4 = nn.Linear(hidden1_dim, output_dim)
         self.use_extra_input = use_extra_input
 
-    def forward(self, input_data):
-        input1 = input_data[:,:-1,:]
+    def forward(self, input_data, device):
+        input1 = input_data[:,:-1,:].to(device).to(torch.float32)
         output = self.layer1(input1)
         if self.use_extra_input:
-            input1_ = input_data[:,1:,:]
+            input1_ = input_data[:,1:,:].to(device).to(torch.float32)
             output += self.layer1_(input1_)
         output = F.relu(output)
         output = F.relu(self.layer2(output))
