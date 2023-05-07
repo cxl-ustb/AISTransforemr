@@ -184,15 +184,15 @@ class MLP(nn.Module):
         self.use_extra_input = use_extra_input
 
     def forward(self, input_data, device):
-        input1 = input_data[:,:-1,:].to(device).to(torch.float32)
+        input1 = input_data[:,:-1,:].to(device).to(torch.float32).transpose(1,2)
         output = self.layer1(input1)
         if self.use_extra_input:
-            input1_ = input_data[:,1:,:].to(device).to(torch.float32)
+            input1_ = input_data[:,1:,:].to(device).to(torch.float32).transpose(1,2)
             output += self.layer1_(input1_)
         output = F.relu(output)
         output = F.relu(self.layer2(output))
         output = F.relu(self.layer3(output))
-        output = self.layer4(output)
+        output = self.layer4(output).transpose(1,2)
         return output
 
 

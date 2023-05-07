@@ -117,7 +117,7 @@ if __name__ == '__main__':
         dropout=opt.dropout,
     ).to(device)
 
-    mlp = MLP(4,4,25,50,use_extra_input=True).to(device)
+    mlp = MLP(10,10,25,50,use_extra_input=False).to(device)
 
     model_train = transformer
     if opt.use_mlp:
